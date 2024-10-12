@@ -1,6 +1,6 @@
 import React from "react";
-import { ChevronRight, Leaf, Clock, Droplet, Award, Star } from "lucide-react";
-
+import { Link } from "react-router-dom";
+import "../styles/milkpage.css";
 export default function FreshMilkPage() {
     return (
         <>
@@ -17,7 +17,7 @@ export default function FreshMilkPage() {
                 Experience the goodness of pure cow milk, carefully sourced and
                 processed to retain its natural flavor and nutritional benefits.
               </p>
-              <Link to="/vendor" className="btn">
+              <Link to="/vendor" className="btn-milk">
                 Contact Vendor
               </Link>
             </div>
@@ -30,7 +30,7 @@ export default function FreshMilkPage() {
                 Experience the goodness of pure Buffalo milk, carefully sourced and
                 processed to retain its natural flavor and nutritional benefits.
               </p>
-              <Link to="#" className="btn">
+              <Link to="#" className="btn-milk">
                 Contact Vendor
               </Link>
             </div>
@@ -43,7 +43,7 @@ export default function FreshMilkPage() {
                 Experience the goodness of pure camel milk, carefully sourced and
                 processed to retain its natural flavor and nutritional benefits.
               </p>
-              <Link to="/vendor" className="btn">
+              <Link to="/vendor" className="btn-milk">
                 Contact Vendor
               </Link>
             </div>
@@ -56,7 +56,7 @@ export default function FreshMilkPage() {
                 Experience the goodness of pure goat milk, carefully sourced and
                 processed to retain its natural flavor and nutritional benefits.
               </p>
-              <Link to="/vendor" className="btn">
+              <Link to="/vendor" className="btn-milk">
                 Contact Vendor
               </Link>
             </div>
@@ -69,7 +69,7 @@ export default function FreshMilkPage() {
                 Experience the goodness of pure Donkey milk, carefully sourced and
                 processed to retain its natural flavor and nutritional benefits.
               </p>
-              <Link to="/vendor" className="btn">
+              <Link to="/vendor" className="btn-milk">
                 Contact Vendor
               </Link>
             </div>

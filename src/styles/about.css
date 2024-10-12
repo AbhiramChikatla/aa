@@ -10,22 +10,22 @@ html,body{
     position: relative;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
-    /* background-image: url(/public/background.jpg);
-     */
-     /* background-image: url(../images/background.jpg); */
+    align-items: center;
     height: 360px;
 }
-div span {
+.my-span {
 
-    /* position: absolute;
-    bottom: 163px;
-    left: 628px; */
-    /* right: 180px; */
-    font-size: 20px;
+    position: absolute;
+    bottom: 250px;
+    left: 700px; 
+    font-size: 30px;
     font-weight: bolder;
-    color: white;
+    color: white; 
 }
+
+
+
+
 
 
 .zxc{

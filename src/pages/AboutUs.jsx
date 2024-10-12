@@ -5,8 +5,8 @@ const AboutUs = () => {
     return (
         <>
             <div className="z">
-                <span>Our Story</span>
-                {/* <img src="backgroundabout.jpg" alt="" height="360px"> */}
+                <span className="my-span">Our Story</span>
+                <img src="./background.jpg" alt="" height="360px" className="title"/>
             </div>
             <h1 className="zxc">Welcome to Milk on the Way</h1>
             <div className="container mt-4 zxc">
