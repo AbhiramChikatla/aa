@@ -30,7 +30,7 @@ export default function FreshMilkPage() {
                 Experience the goodness of pure Buffalo milk, carefully sourced and
                 processed to retain its natural flavor and nutritional benefits.
               </p>
-              <Link to="#" className="btn-milk">
+              <Link to="/vendor" className="btn-milk">
                 Contact Vendor
               </Link>
             </div>
@@ -75,57 +75,7 @@ export default function FreshMilkPage() {
             </div>
           </div>
         </div>
-        {/* <div class="container  qwas d-flex gap-4 align-items-center mt-5" style="    height: 300px;">
-      
-          <div id="bm" class="card hw" style="width: 18rem;">
-      <img src="buffalo milk.png" width="200px" height="200px" style="object-fit:cover; " class="card-img-top"
-        alt="...">
-      <div class="card-body">
-        <h5 style="text-align: center;" class="card-title">Buffalo Milk</h5>
-      
-      </div>
-          </div>
-      
-          <div id="cm" class="card hw" style="width: 18rem;">
-      <img src="cow milk.png" width="200px" height="200px" style="object-fit:cover;" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title" style="text-align: center;">Cow Milk</h5>
-      
-      </div>
-          </div>
-      
-      
-        </div>
-      
-      
-        <div id="buff" class="container">
-          <h2 style="text-align: center;">Buffalo Milk</h2>
-      
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-      
-      
-      
-      
-        </div>
-      
-      
-      
-        <div id="cow" class="container">
-          <h2 style="text-align: center;">Cow Milk</h2>
-      
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-      
-        </div> */}
+       
       </>
       
     );

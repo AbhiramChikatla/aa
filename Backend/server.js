@@ -142,6 +142,10 @@ app.get("/profile", (req, res) => {
     } else {
         res.json(null);
     }
+});  
+
+app.get("/logout", (req, res) => {
+    res.clearCookie("token").send("Logged out");
 });
 
 app.listen(port, () => {

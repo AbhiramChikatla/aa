@@ -12,6 +12,9 @@ import LoginForCustomer from "./pages/LoginForCustomer.jsx";
 import LoginForVendor from "./pages/LoginForVendor.jsx";
 import { UserContextProvider } from "./context/userContext.jsx";
 import Milk from "./pages/Milk.jsx";
+import Vendor from "./components/Vendor.jsx";
+import Ghee from "./pages/Ghee.jsx";
+import Curd from "./pages/Curd.jsx";
 
 
 const router = createBrowserRouter([
@@ -22,6 +25,9 @@ const router = createBrowserRouter([
     { path: "/register", element: <Register /> },
     { path: "/login-customer", element: <LoginForCustomer /> },
     { path: "/login-vendor", element: <LoginForVendor /> },
+    { path: "/vendor", element: <Vendor /> },
+    { path: "/ghee", element: <Ghee/> },
+    { path: "/curd", element: <Curd/> },
 
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(

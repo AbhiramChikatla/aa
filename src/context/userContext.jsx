@@ -1,9 +1,11 @@
+
 import { createContext, useEffect, useState } from "react";
 import React from "react";
 export const userContext = createContext();
 
 export function UserContextProvider({ children }) {
     const [LoginUser, setLoginUser] = useState(null);
+    const [ready, setReady] = useState(false);
 
  
     const fetchUser = async () => {
@@ -18,6 +20,7 @@ export function UserContextProvider({ children }) {
         console.log("hello");
         console.log("the final user is", user);
         setLoginUser(user);
+        setReady(true);
     }
 
 
@@ -30,7 +33,7 @@ export function UserContextProvider({ children }) {
     }, []);
 
     return (
-        <userContext.Provider value={{ LoginUser, setLoginUser }}>
+        <userContext.Provider value={{ LoginUser, setLoginUser,ready }}>
             <div>{children}</div>
         </userContext.Provider>
     );

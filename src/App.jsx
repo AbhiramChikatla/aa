@@ -5,14 +5,23 @@ import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
 import { userContext } from "./context/userContext";
 import { UserCircleIcon } from "lucide-react";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 function App() {
-    const [ready, setReady] = useState(false);
-    const { LoginUser } = useContext(userContext);
-    console.log("the user is", LoginUser);
-    
 
-
+    const { LoginUser,ready } = useContext(userContext);
+  
+    const handleClick = () => {
+        fetch("http://localhost:3000/logout", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+        });
+        window.location.href = "/";
+    }
     return (
         <>
             <nav
@@ -84,7 +93,7 @@ function App() {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link className="dropdown-item" to="#">
+                                        <Link className="dropdown-item" to="/ghee">
                                             Ghee
                                         </Link>
                                     </li>
@@ -92,15 +101,11 @@ function App() {
                                         <hr className="dropdown-divider" />
                                     </li>
                                     <li>
-                                        <Link className="dropdown-item" to="#">
+                                        <Link className="dropdown-item" to="/curd">
                                             Curd
                                         </Link>
                                     </li>
-                                    <li>
-                                        <Link className="dropdown-item" to="#">
-                                            Milk related sweets
-                                        </Link>
-                                    </li>
+                                    
                                 </ul>
                             </li>
                             <li className="nav-item">
@@ -110,25 +115,69 @@ function App() {
                             </li>
                         </ul>
 
-                        {LoginUser && ready ? (
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    Action
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    Another action
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    Something else here
+                                </a>
+                            </li>
+                        </ul>
+
+                        {!!LoginUser  ? (
+                            
                             <>
-                                <div
-                                    style={{
-                                        border: "1px solid white",
-                                        padding: "5px",
-                                        borderRadius: "5px",
-                                        boxShadow: "2px 2px 5px black",
-                                        display: "flex",
-                                        gap: "10px",
-                                        color: "white",
-                                        fontWeight: "bold",
-                                    }}
-                                >
-                                    <UserCircleIcon />
-                                    {LoginUser.username}
+                                <div class="dropdown justify-content-center">
+                                    <button
+                                        className="btn btn-secondary dropdown-toggle"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                        style={{
+                                            border: "1px solid white",
+                                            padding: "5px",
+                                            borderRadius: "5px",
+                                            boxShadow: "2px 2px 5px black",
+                                            display: "flex",
+                                            gap: "10px",
+                                            color: "white",
+                                            fontWeight: "bold",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <UserCircleIcon />
+                                        {LoginUser.username }
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="#">
+                                                Action
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#">
+                                                Another action
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <Link class="dropdown-item" onClick={handleClick}>
+                                                Logout
+                                            </Link>
+                                        </li>
+                                    </ul>
                                 </div>
                             </>
                         ) : (
+
                             <div className="mx-2 nav-extra task_2">
                                 <div
                                     className="btn btn-danger"
@@ -153,7 +202,7 @@ function App() {
                                         SignUp
                                     </Link>
                                 </div>
-                            </div>
+                            </div> 
                         )}
                     </div>
                 </div>
