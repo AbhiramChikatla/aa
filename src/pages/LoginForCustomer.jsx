@@ -13,15 +13,10 @@ const LoginForCustomer = () => {
         watch,
         formState: { errors, isSubmitting, isSubmitSuccessful, isSubmitted },
     } = useForm();
+
     const accountCreated = () => {
         alert("Login Successful...");
     };
-    function tochange() {
-        setTimeout(() => {
-            setVisible(false)
-        }, 2000);
-        setVisible(true)
-    }
     const failed = () => {
         alert("Failed to login...");
     };
@@ -34,10 +29,12 @@ const LoginForCustomer = () => {
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
 
             body: JSON.stringify(data),
         });
         let content = await response.json();
+        console.log("in the cone");
         console.log(content);
         setresMessage(content);
         if (content.success) {
@@ -45,8 +42,9 @@ const LoginForCustomer = () => {
         } else {
             failed();
         }
-        tochange();
+       
     };
+
     return (
         <>
             {resMessage.success ? (
@@ -94,7 +92,7 @@ const LoginForCustomer = () => {
                                             },
                                         })}
                                     />
-                                
+
                                     {errors.email && (
                                         <span className=" flex gap-2 items-center ml-1 text-sm text-danger">
                                             {errors.email.message}
@@ -140,15 +138,10 @@ const LoginForCustomer = () => {
                                     id="log"
                                     style={{ marginTop: 20 }}
                                     className="btn btn-info"
-                                
                                 >
                                     Login
                                 </button>
-                                {resMessage.msg && visible && (
-                                    <div className="alert alert-danger mt-3">
-                                        {resMessage.msg}
-                                    </div>
-                                )}
+                               
                             </form>
                         </div>
                     </div>

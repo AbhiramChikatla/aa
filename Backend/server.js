@@ -1,8 +1,6 @@
-// const express = require('express')
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import bodyParser from "body-parser";
 import { RegisterModel } from "../src/models/registerSchema.js";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
@@ -18,12 +16,10 @@ app.use(
     cors({
         origin: "http://localhost:5173",
         credentials: true,
-        methods: ["GET", "POST"],
     })
 );
 app.use(express.json());
 app.use(cookieParser());
-app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
@@ -87,14 +83,16 @@ app.post("/createaccount", async (req, res) => {
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
     console.log(email, password);
+    console.log("login route");
 
     const findUser = await RegisterModel.findOne({ email });
     if (!findUser) {
         res.send({ success: false, msg: "User not found" });
     }
 
+
     if (findUser.password === password) {
-        const token = jwt.sign(
+        jwt.sign(
             {
                 email: email,
                 username: findUser.firstname + " " + findUser.lastname,
@@ -102,17 +100,22 @@ app.post("/login", async (req, res) => {
             },
             jwtSecret,
             {
-                expiresIn: "2 days",
+                expiresIn: "1h",
+            },
+            (err, token) => {
+                if (err) throw err;
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    secure: false,
+                    sameSite: "lax",
+                    
+                }).send({
+                    success: true,
+                    msg: "Login Successful",
+                    token: token,
+                });
             }
         );
-        console.log(token);
-        res.cookie("token", token, {
-            httpOnly: true,
-        }).send({
-            success: true,
-            msg: "Login Successful",
-            token: token,
-        });
     } else {
         res.send({ success: false, msg: "Incorrect Password" });
     }
@@ -120,6 +123,7 @@ app.post("/login", async (req, res) => {
 
 app.get("/profile", (req, res) => {
     console.log("the cookie is ");
+    console.log(req.cookies);
 
     const { token } = req.cookies;
     console.log("the user token is", token);
