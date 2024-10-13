@@ -90,7 +90,6 @@ app.post("/login", async (req, res) => {
         res.send({ success: false, msg: "User not found" });
     }
 
-
     if (findUser.password === password) {
         jwt.sign(
             {
@@ -108,7 +107,6 @@ app.post("/login", async (req, res) => {
                     httpOnly: true,
                     secure: false,
                     sameSite: "lax",
-                    
                 }).send({
                     success: true,
                     msg: "Login Successful",
@@ -142,7 +140,14 @@ app.get("/profile", (req, res) => {
     } else {
         res.json(null);
     }
-});  
+});
+
+
+
+app.get("/vendors", async (req, res) => {
+    const vendorsData = await RegisterModel.find({ isVendor: true });
+    res.send(vendorsData);
+});
 
 app.get("/logout", (req, res) => {
     res.clearCookie("token").send("Logged out");

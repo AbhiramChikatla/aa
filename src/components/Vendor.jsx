@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/vendorstyles.css";
+import { useState } from "react";
 
 const Vendor = () => {
+    const [vendorsList, setVendorsList] = useState([]);
+
+    const getVendors = async () => {
+        const data = await fetch("http://localhost:3000/vendors");
+        const vendorsData = await data.json();
+        console.log(vendorsData);
+        setVendorsList(vendorsData);
+    };
+    useEffect(() => {
+        getVendors();
+    }, []);
+    const renderStars = (num) => {
+        return Array.from({ length: num }, (_, index) => (
+            <span style={{fontSize:30}} key={index}>&#9733;</span> // Unicode for star
+        ));
+    };
+
     return (
         <div>
             <>
@@ -144,7 +162,7 @@ const Vendor = () => {
                                 defaultValue="fruits"
                                 onclick="filterVendors()"
                             />{" "}
-                            Fruits
+                            milk wholesale{" "}
                         </label>
                         <label>
                             <input
@@ -153,7 +171,7 @@ const Vendor = () => {
                                 defaultValue="vegetables"
                                 onclick="filterVendors()"
                             />{" "}
-                            Vegetables
+                            Organic Milk{" "}
                         </label>
                         <label>
                             <input
@@ -162,12 +180,80 @@ const Vendor = () => {
                                 defaultValue="dairy"
                                 onclick="filterVendors()"
                             />{" "}
-                            Dairy
+                            Fresh Cow Milk and Curd
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="products"
+                                defaultValue="dairy"
+                                onclick="filterVendors()"
+                            />{" "}
+                            Butter and Cream
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="products"
+                                defaultValue="dairy"
+                                onclick="filterVendors()"
+                            />{" "}
+                            any type of animal milk
                         </label>
                     </div>
                     {/* Vendor List Section */}
                     <div className="vendor-list" id="vendorList">
                         {/* Vendor Card 1 */}
+
+                        {vendorsList.map((vendor) => {
+                            return (
+                                <div
+                                    className="vendor-card"
+                                    data-rating={vendor.rating}
+                                    data-cost={vendor.cost}
+                                    data-place={vendor.place}
+                                    data-products={vendor.products}
+                                >
+                                    <div className="vendor-profile">
+                                        <img
+                                            src="user.jpg"
+                                            alt="Vendor Profile"
+                                        />
+                                    </div>
+                                    <div className="vendor-details">
+                                        <div className="vendor-name">
+                                            {vendor.firstname +
+                                                " " +
+                                                vendor.lastname}
+                                        </div>
+                                        {/* based on the number i want the no of stars give me the codee */}
+
+                                        {/* generate a random no between in the range 1-5 */}
+
+                                        <div className="rating">
+                                            {renderStars(
+                                                Math.floor(Math.random() * 5) + 1
+                                            )}
+                                        </div>
+                                        <div className="vendor-info">
+                                            <strong>Products Sold:</strong>{" "}
+                                            {vendor.work}
+                                        </div>
+                                       
+                                        <div className="location">
+                                            <strong>Location:</strong>{" "}
+                                            {vendor.address}
+                                        </div>
+                                        <div className="phone">
+                                            <strong>Phone:</strong>{" "}
+                                            <a href={`tel:+91${vendor.phone}`}>
+                                                +91 {vendor.phone}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
                         <div
                             className="vendor-card"
                             data-rating={5}
@@ -187,9 +273,7 @@ const Vendor = () => {
                                     <strong>Products Sold:</strong> Organic
                                     Fruits, Vegetables, Dairy
                                 </div>
-                                <div className="price">
-                                    <strong>Cost per Packet:</strong> Low
-                                </div>
+                                
                                 <div className="location">
                                     <strong>Location:</strong> Springfield
                                 </div>
@@ -202,7 +286,7 @@ const Vendor = () => {
                             </div>
                         </div>
                         {/* Vendor Card 2 */}
-                        <div
+                        {/* <div
                             className="vendor-card"
                             data-rating={4}
                             data-cost="medium"
@@ -234,7 +318,7 @@ const Vendor = () => {
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </>

@@ -42,7 +42,6 @@ const LoginForCustomer = () => {
         } else {
             failed();
         }
-       
     };
 
     return (
@@ -54,12 +53,21 @@ const LoginForCustomer = () => {
             ) : (
                 <div>
                     <div className="container login ">
-                        <div className="smalloginbox clr">
+                        <div
+                            className="smalloginbox clr"
+                            style={{
+                                border: "1px solid black",
+                                padding: "20px",
+                                boxShadow: "5px 10px #888888",
+                                marginTop: "50px",
+                            }}
+                        >
                             <div className="head">Milk on the Way</div>
                             <b style={{ fontSize: 20, marginTop: 20 }}>
                                 {" "}
                                 Login for Customer
                             </b>
+                            {/* add a border for the below form in bootstrap add a shadow */}
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className="mb-3">
                                     <label
@@ -136,12 +144,20 @@ const LoginForCustomer = () => {
                                 <button
                                     type="submit"
                                     id="log"
-                                    style={{ marginTop: 20 }}
+                                    style={{
+                                        marginTop: 20,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        backgroundColor: "white",
+                                        fontWeight: 600,
+                                        borderRadius: 10,
+                                        border: "3px solid #0dca",
+                                    }}
                                     className="btn btn-info"
                                 >
                                     Login
                                 </button>
-                               
                             </form>
                         </div>
                     </div>
@@ -152,3 +168,5 @@ const LoginForCustomer = () => {
 };
 
 export default LoginForCustomer;
+
+

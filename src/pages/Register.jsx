@@ -42,9 +42,8 @@ const Register = () => {
         setresMessage(content);
         if (content.success) {
             accountCreated();
-        }
-        else{
-            failed()
+        } else {
+            failed();
         }
     };
     return (
@@ -316,15 +315,27 @@ const Register = () => {
                                             className="form-select"
                                             aria-label="Default select example"
                                         >
-                                            <option selected="" value={-1}>
+                                            <option
+                                                selected=""
+                                                value={"sells milk"}
+                                            >
                                                 sells milk wholesale
                                             </option>
-                                            <option value={1}>
-                                                deliver products directly to
-                                                customers
+                                            <option
+                                                value={"sells Organic Milk"}
+                                            >
+                                                sells Organic Milk
                                             </option>
-                                            <option value={2}>abcdef</option>
-                                            <option value={3}>defhhf</option>
+                                            <option value={"sells Fresh Cow Milk and Curd"}>
+                                                sells Fresh Cow Milk and Curd
+                                            </option>
+                                            <option value={"Butter and Cream"}>
+                                                sells Butter and Cream
+                                            </option>
+
+                                            <option value={"Butter and Cream"}>
+                                                sells any type of animal milk
+                                            </option>
                                         </select>
                                     </div>
                                 )}
