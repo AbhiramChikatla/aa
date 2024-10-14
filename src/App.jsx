@@ -5,13 +5,12 @@ import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
 import { userContext } from "./context/userContext";
 import { UserCircleIcon } from "lucide-react";
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from "./components/Skeleton";
 
 function App() {
+    const { LoginUser } = useContext(userContext);
+    const [ready, setReady] = useState(false);
 
-    const { LoginUser,ready } = useContext(userContext);
-  
     const handleClick = () => {
         fetch("http://localhost:3000/logout", {
             method: "GET",
@@ -20,8 +19,13 @@ function App() {
             },
             credentials: "include",
         });
-        window.location.href = "/";
-    }
+        window.location.reload();
+    };
+    useEffect(() => {
+        setTimeout(() => {
+            setReady(true);
+        }, 1000);
+    }, []);
     return (
         <>
             <nav
@@ -93,7 +97,10 @@ function App() {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link className="dropdown-item" to="/ghee">
+                                        <Link
+                                            className="dropdown-item"
+                                            to="/ghee"
+                                        >
                                             Ghee
                                         </Link>
                                     </li>
@@ -101,11 +108,13 @@ function App() {
                                         <hr className="dropdown-divider" />
                                     </li>
                                     <li>
-                                        <Link className="dropdown-item" to="/curd">
+                                        <Link
+                                            className="dropdown-item"
+                                            to="/curd"
+                                        >
                                             Curd
                                         </Link>
                                     </li>
-                                    
                                 </ul>
                             </li>
                             <li className="nav-item">
@@ -133,76 +142,96 @@ function App() {
                             </li>
                         </ul>
 
-                        {!!LoginUser  ? (
-                            
+                        {ready ? (
                             <>
-                                <div class="dropdown justify-content-center">
-                                    <button
-                                        className="btn btn-secondary dropdown-toggle"
-                                        type="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                        style={{
-                                            border: "1px solid white",
-                                            padding: "5px",
-                                            borderRadius: "5px",
-                                            boxShadow: "2px 2px 5px black",
-                                            display: "flex",
-                                            gap: "10px",
-                                            color: "white",
-                                            fontWeight: "bold",
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <UserCircleIcon />
-                                        {LoginUser.username }
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" href="#">
-                                                Action
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">
-                                                Another action
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <Link class="dropdown-item" onClick={handleClick}>
-                                                Logout
+                                {!!LoginUser ? (
+                                    <>
+                                        <div class="dropdown justify-content-center">
+                                            <button
+                                                className="btn btn-secondary dropdown-toggle"
+                                                type="button"
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="false"
+                                                style={{
+                                                    border: "1px solid white",
+                                                    padding: "5px",
+                                                    borderRadius: "5px",
+                                                    boxShadow:
+                                                        "2px 2px 5px black",
+                                                    display: "flex",
+                                                    gap: "10px",
+                                                    color: "white",
+                                                    fontWeight: "bold",
+                                                    alignItems: "center",
+                                                }}
+                                            >
+                                                <UserCircleIcon />
+                                                {LoginUser.username}
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a
+                                                        class="dropdown-item"
+                                                        href="#"
+                                                    >
+                                                        Action
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        class="dropdown-item"
+                                                        href="#"
+                                                    >
+                                                        Another action
+                                                    </a>
+                                                </li>
+
+                                                <li
+                                                    onClick={handleClick}
+                                                    style={{
+                                                        cursor: "pointer",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent:
+                                                            "flex-start",
+                                                        marginLeft: "18px",
+                                                    }}
+                                                >
+                                                    <div>Logout</div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="mx-2 nav-extra task_2">
+                                        <div
+                                            className="btn btn-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#loginModal"
+                                        >
+                                            Login
+                                        </div>
+
+                                        <div
+                                            class="btn btn-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#signupModal"
+                                        >
+                                            <Link
+                                                to={"/register"}
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: "white",
+                                                }}
+                                            >
+                                                SignUp
                                             </Link>
-                                        </li>
-                                    </ul>
-                                </div>
+                                        </div>
+                                    </div>
+                                )}
                             </>
                         ) : (
-
-                            <div className="mx-2 nav-extra task_2">
-                                <div
-                                    className="btn btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#loginModal"
-                                >
-                                    Login
-                                </div>
-
-                                <div
-                                    class="btn btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#signupModal"
-                                >
-                                    <Link
-                                        to={"/register"}
-                                        style={{
-                                            textDecoration: "none",
-                                            color: "white",
-                                        }}
-                                    >
-                                        SignUp
-                                    </Link>
-                                </div>
-                            </div> 
+                            <Skeleton />
                         )}
                     </div>
                 </div>

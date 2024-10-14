@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { userContext } from "../context/userContext";
 
 const Register = () => {
     const [isVendor, SetIsVendor] = useState(false);
     const [resMessage, setresMessage] = useState({});
     const [visible, setVisible] = useState(false);
+    const {setLoginUser} = useContext(userContext);
 
     const {
         register,
@@ -42,6 +44,7 @@ const Register = () => {
         setresMessage(content);
         if (content.success) {
             accountCreated();
+            setLoginUser(content.user);
         } else {
             failed();
         }

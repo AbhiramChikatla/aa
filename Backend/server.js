@@ -6,6 +6,8 @@ import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 const app = express();
 const port = 3000;
+import nodemailer from "nodemailer";
+import "dotenv/config";
 
 const jwtSecret = "lasd4831231#^";
 
@@ -56,23 +58,20 @@ app.post("/createaccount", async (req, res) => {
             isVendor,
             work,
         });
-        const token = jwt.sign(
-            {
-                username: firstname + " " + lastname,
-                email: email,
-                isVendor: isVendor,
-            },
-            jwtSecret,
-            {
-                expiresIn: "2 days",
-            }
-        );
+        const userObj = {
+            username: firstname + " " + lastname,
+            email: email,
+            isVendor: isVendor,
+        };
+        const token = jwt.sign(userObj, jwtSecret, {
+            expiresIn: "2 days",
+        });
 
         console.log(createUser);
         res.cookie("token", token).send({
             success: true,
             msg: "Account Created Successfully",
-            user: createUser,
+            user: userObj,
         });
     } catch (error) {
         res.status(400).json({ success: false, error: error });
@@ -80,7 +79,7 @@ app.post("/createaccount", async (req, res) => {
     }
 });
 
-app.post("/login", async (req, res) => {
+app.post("/login-vendor", async (req, res) => {
     const { email, password } = req.body;
     console.log(email, password);
     console.log("login route");
@@ -89,14 +88,17 @@ app.post("/login", async (req, res) => {
     if (!findUser) {
         res.send({ success: false, msg: "User not found" });
     }
-
+    if (!findUser.isVendor) {
+        res.send({ success: false, msg: "User is not a vendor" });
+    }
+    const userObj = {
+        email: email,
+        username: findUser.firstname + " " + findUser.lastname,
+        isVendor: findUser.isVendor,
+    };
     if (findUser.password === password) {
         jwt.sign(
-            {
-                email: email,
-                username: findUser.firstname + " " + findUser.lastname,
-                isVendor: findUser.isVendor,
-            },
+            userObj,
             jwtSecret,
             {
                 expiresIn: "1h",
@@ -106,11 +108,55 @@ app.post("/login", async (req, res) => {
                 res.cookie("token", token, {
                     httpOnly: true,
                     secure: false,
-                    sameSite: "lax",
+                    sameSite: "strict",
                 }).send({
                     success: true,
                     msg: "Login Successful",
-                    token: token,
+                    user: userObj,
+                });
+            }
+        );
+    } else {
+        res.send({ success: false, msg: "Incorrect Password" });
+    }
+});
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+    console.log(email, password);
+    console.log("login route");
+
+    const findUser = await RegisterModel.findOne({ email });
+    if (!findUser) {
+        res.send({ success: false, msg: "User not found" });
+    }
+    if (findUser.isVendor) {
+        res.send({
+            success: false,
+            msg: "You are a vendor. Please log in as a vendor ",
+        });
+    }
+    const userObj = {
+        email: email,
+        username: findUser.firstname + " " + findUser.lastname,
+        isVendor: findUser.isVendor,
+    };
+    if (findUser.password === password) {
+        jwt.sign(
+            userObj,
+            jwtSecret,
+            {
+                expiresIn: "1h",
+            },
+            (err, token) => {
+                if (err) throw err;
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    secure: false,
+                    sameSite: "strict",
+                }).send({
+                    success: true,
+                    msg: "Login Successful",
+                    user: userObj,
                 });
             }
         );
@@ -142,11 +188,44 @@ app.get("/profile", (req, res) => {
     }
 });
 
-
-
 app.get("/vendors", async (req, res) => {
     const vendorsData = await RegisterModel.find({ isVendor: true });
     res.send(vendorsData);
+});
+
+app.post("/contact", async (req, res) => {
+    const { email, query, concern } = req.body;
+
+    // Create a transporter object using SMTP with your email host details
+    let transporter = nodemailer.createTransport({
+        service: "gmail", // You can also use other email services like Outlook, Yahoo, etc.
+        auth: {
+            user: "milkontheway01@gmail.com", // Your host email
+            pass: process.env.SMTP_PASS, // Host email password (consider using environment variables for security)
+        },
+    });
+
+    // Email options
+    let mailOptions = {
+        from: "milkontheway01@gmail.com", // Sender address (your host email)
+        to: email, // Receiver's email (user's email from the request)
+        subject: "We have received your query", // Subject of the email
+        text: `Thank you for contacting us! 
+        Query Type: ${query} 
+        Concern: ${concern}`, // Plain text body
+    };
+
+    // Send the email
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error);
+            return res
+                .status(500)
+                .send({ success: false, msg: "Error sending email" });
+        }
+        console.log("Email sent: " + info.response);
+        res.status(200).send({ success: true, msg: "Email sent successfully" });
+    });
 });
 
 app.get("/logout", (req, res) => {

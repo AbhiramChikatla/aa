@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../styles/loginstyle.css";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import { userContext } from "../context/userContext";
+
 const LoginForVendor = () => {
     const [resMessage, setresMessage] = useState({});
     const [visible, setVisible] = useState(false);
+    const {setLoginUser} = useContext(userContext);
+
     const {
         register,
         handleSubmit,
@@ -17,8 +21,8 @@ const LoginForVendor = () => {
     const accountCreated = () => {
         alert("Login Successful...");
     };
-    const failed = () => {
-        alert("Failed to login...");
+    const failed = (msg) => {
+        alert(msg);
     };
     const onSubmit = async (data) => {
         reset();
@@ -39,8 +43,9 @@ const LoginForVendor = () => {
         setresMessage(content);
         if (content.success) {
             accountCreated();
+            setLoginUser(content.user);
         } else {
-            failed();
+            failed(content.msg);
         }
     };
 

@@ -15,6 +15,7 @@ import Milk from "./pages/Milk.jsx";
 import Vendor from "./components/Vendor.jsx";
 import Ghee from "./pages/Ghee.jsx";
 import Curd from "./pages/Curd.jsx";
+import Skeleton from "react-loading-skeleton";
 
 
 const router = createBrowserRouter([
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
     { path: "/vendor", element: <Vendor /> },
     { path: "/ghee", element: <Ghee/> },
     { path: "/curd", element: <Curd/> },
+    { path: "/test", element: <Skeleton/> },
 
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
